@@ -1,0 +1,69 @@
+"""
+Catalyst Backend — Application Entry Point
+
+This module bootstraps the FastAPI application, registers all middleware,
+mounts all API routers, and wires up the lifespan context manager for
+startup/shutdown hooks.
+"""
+
+from __future__ import annotations
+
+from contextlib import asynccontextmanager
+from typing import AsyncGenerator
+
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
+from app.api.router import api_router
+from app.core.config import get_settings
+from app.core.logging import configure_logging
+
+
+settings = get_settings()
+
+
+@asynccontextmanager
+async def lifespan(application: FastAPI) -> AsyncGenerator[None, None]:
+    """Application lifespan — handles startup and graceful shutdown."""
+    configure_logging()
+
+    # TODO: initialise database connections
+    # TODO: initialise Neo4j driver
+    # TODO: initialise Redis client
+    # TODO: configure OpenTelemetry
+
+    yield
+
+    # TODO: close database connections on shutdown
+
+
+def create_application() -> FastAPI:
+    """Application factory — constructs and configures the FastAPI instance."""
+    application = FastAPI(
+        title="Catalyst API",
+        description=(
+            "Software Digital Twin & Predictive Architecture Intelligence Platform"
+        ),
+        version=settings.APP_VERSION,
+        docs_url="/docs",
+        redoc_url="/redoc",
+        openapi_url="/openapi.json",
+        lifespan=lifespan,
+    )
+
+    # ── CORS ──────────────────────────────────────────────────────────────────
+    application.add_middleware(
+        CORSMiddleware,
+        allow_origins=settings.ALLOWED_ORIGINS,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+
+    # ── Routers ───────────────────────────────────────────────────────────────
+    application.include_router(api_router, prefix=settings.API_PREFIX)
+
+    return application
+
+
+app = create_application()

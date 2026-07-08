@@ -1,0 +1,31 @@
+# CODEOWNERS — Catalyst
+
+# Default owners for everything
+* @catalyst-core-team
+
+# Backend
+/backend/app/modules/parser/      @catalyst-parser-team
+/backend/app/modules/graph/       @catalyst-graph-team
+/backend/app/modules/telemetry/   @catalyst-platform-team
+/backend/app/modules/simulation/  @catalyst-intelligence-team
+/backend/app/modules/prediction/  @catalyst-intelligence-team
+/backend/app/modules/optimization/ @catalyst-intelligence-team
+/backend/app/api/                 @catalyst-api-team
+/backend/app/core/                @catalyst-core-team
+/backend/app/database/            @catalyst-core-team
+/backend/app/workers/             @catalyst-platform-team
+
+# Frontend
+/frontend/                        @catalyst-frontend-team
+
+# Infrastructure
+/infrastructure/                  @catalyst-platform-team
+/docker-compose.yml               @catalyst-platform-team
+/.github/                         @catalyst-core-team
+
+# Docs
+/docs/                            @catalyst-core-team
+
+# Research
+/research/                        @catalyst-research-team
+/experiments/                     @catalyst-research-team

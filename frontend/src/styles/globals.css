@@ -1,0 +1,50 @@
+/* Glassmorphism styling helpers */
+.glass-panel {
+  background: rgba(22, 27, 39, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(42, 51, 71, 0.5);
+}
+
+.glass-card {
+  background: rgba(30, 37, 53, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(42, 51, 71, 0.3);
+}
+
+/* React Flow custom styling overrides */
+.react-flow__node {
+  @apply rounded-lg border p-4 shadow-xl transition-all duration-200;
+}
+
+.react-flow__node-default {
+  @apply bg-surface-secondary border-surface-border text-white;
+}
+
+.react-flow__node-default:hover {
+  @apply border-catalyst-500 shadow-catalyst-500/10;
+}
+
+.react-flow__edge-path {
+  @apply stroke-surface-border stroke-2 transition-all duration-200;
+}
+
+.react-flow__edge:hover .react-flow__edge-path {
+  @apply stroke-catalyst-400;
+}
+
+.react-flow__controls {
+  @apply bg-surface-secondary border border-surface-border rounded-lg overflow-hidden shadow-xl;
+}
+
+.react-flow__controls-button {
+  @apply bg-surface-secondary border-b border-surface-border text-gray-400 fill-current hover:bg-surface-tertiary hover:text-white transition-colors duration-150 !important;
+}
+
+/* Cytoscape.js container stub class */
+.cytoscape-container {
+  width: 100%;
+  height: 100%;
+  background-color: #0f1117;
+}

@@ -1,0 +1,88 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+ENV/
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+
+# Node / Frontend
+node_modules/
+dist/
+.next/
+out/
+frontend/dist/
+frontend/.cache/
+*.local
+
+# Environment
+.env
+.env.local
+.env.*.local
+.env.production
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+*.iml
+
+# Docker
+.dockerignore
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Databases (local dev dumps)
+*.sqlite3
+*.db
+
+# ML / Research artifacts
+*.pt
+*.pth
+*.ckpt
+*.h5
+wandb/
+mlruns/
+lightning_logs/
+
+# Datasets (large files)
+datasets/repositories/*/
+datasets/runtime/raw/
+datasets/processed/
+
+# Temporary files
+tmp/
+temp/
+.tmp/
+
+# Alembic
+backend/app/database/migrations/versions/*.pyc
+
+# OS
+.DS_Store
+.AppleDouble
+.LSOverride
