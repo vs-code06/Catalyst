@@ -16,7 +16,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.router import api_router
 from app.core.config import get_settings
-from app.core.logging import configure_logging
+from app.core.logging import configure_logging, get_logger
+from app.database.mongodb import client as mongodb_client
 
 
 settings = get_settings()
@@ -26,15 +27,32 @@ settings = get_settings()
 async def lifespan(application: FastAPI) -> AsyncGenerator[None, None]:
     """Application lifespan — handles startup and graceful shutdown."""
     configure_logging()
+    logger = get_logger(__name__)
 
-    # TODO: initialise database connections
+    logger.info("Starting up Catalyst application...")
+
+    # Initialise MongoDB connection
+    logger.info("Initialising MongoDB client...")
+    mongodb_client.client = mongodb_client.create_client()
+    try:
+        # Verify MongoDB is reachable
+        await mongodb_client.client.admin.command("ping")
+        logger.info("MongoDB client connected successfully.")
+    except Exception as e:
+        logger.error("Failed to connect to MongoDB", error=str(e))
+        raise
+
     # TODO: initialise Neo4j driver
     # TODO: initialise Redis client
     # TODO: configure OpenTelemetry
 
     yield
 
-    # TODO: close database connections on shutdown
+    logger.info("Shutting down Catalyst application...")
+    if mongodb_client.client is not None:
+        logger.info("Closing MongoDB client...")
+        mongodb_client.client.close()
+        logger.info("MongoDB client closed.")
 
 
 def create_application() -> FastAPI:

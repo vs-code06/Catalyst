@@ -46,7 +46,7 @@ Catalyst is organised in **5 layered tiers** where each layer builds on the one 
 
 ## Tech Stack
 
-**Backend**: Python 3.12 · FastAPI · Pydantic · SQLAlchemy · Alembic · Celery · Redis · PostgreSQL · Neo4j · Tree-sitter · NetworkX · PyTorch · PyTorch Geometric · OpenTelemetry · Prometheus · Jaeger
+**Backend**: Python 3.12 · FastAPI · Pydantic · Motor · Celery · Redis · MongoDB · Neo4j · Tree-sitter · NetworkX · PyTorch · PyTorch Geometric · OpenTelemetry · Prometheus · Jaeger
 
 **Frontend**: React 18 · TypeScript · Vite · TailwindCSS · React Flow · Cytoscape.js · Zustand · React Query · D3.js
 

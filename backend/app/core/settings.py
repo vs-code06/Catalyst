@@ -33,13 +33,11 @@ class Settings(BaseSettings):
     API_PREFIX: str = "/api/v1"
     ALLOWED_ORIGINS: list[str] = ["http://localhost:3000"]
 
-    # ── PostgreSQL ────────────────────────────────────────────────────────────
-    DATABASE_URL: str = Field(
-        "postgresql+asyncpg://catalyst:catalyst@localhost:5432/catalyst"
+    # ── MongoDB ───────────────────────────────────────────────────────────────
+    MONGO_URI: str = Field(
+        "mongodb://catalyst:catalyst_dev_password@localhost:27017/catalyst?authSource=admin"
     )
-    DB_POOL_SIZE: int = 10
-    DB_MAX_OVERFLOW: int = 20
-    DB_POOL_TIMEOUT: int = 30
+    MONGO_DB: str = "catalyst"
 
     # ── Neo4j ─────────────────────────────────────────────────────────────────
     NEO4J_URI: str = "bolt://localhost:7687"

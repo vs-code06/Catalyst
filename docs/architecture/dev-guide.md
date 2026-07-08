@@ -69,7 +69,7 @@ We strongly recommend building Catalyst **vertically, layer-by-layer**. Start wi
 1. Implement the Git cloner under `parser/repository_loader`.
 2. Load the Python grammar in `parser/tree_sitter`.
 3. Write a simple Tree-sitter query to extract classes, functions, and import statements in a file.
-4. Save the result to PostgreSQL as `ParsedRepository` and `Symbol` tables.
+4. Save the result to MongoDB as `ParsedRepository` and `Symbol` collections.
 
 ### 🔗 Phase 2: Neo4j Graph Builders (L2)
 **Objective**: Build your first dependency graph.

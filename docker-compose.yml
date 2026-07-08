@@ -9,7 +9,7 @@ networks:
 
 # ─── Volumes ─────────────────────────────────────────────────────────────────
 volumes:
-  postgres_data:
+  mongodb_data:
   neo4j_data:
   neo4j_logs:
   redis_data:
@@ -19,23 +19,23 @@ volumes:
 # ─── Services ────────────────────────────────────────────────────────────────
 services:
 
-  # ── PostgreSQL ──────────────────────────────────────────────────────────────
-  postgres:
-    image: postgres:16-alpine
-    container_name: catalyst-postgres
+  # ── MongoDB ─────────────────────────────────────────────────────────────────
+  mongodb:
+    image: mongo:7.0
+    container_name: catalyst-mongodb
     restart: unless-stopped
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-catalyst}
-      POSTGRES_USER: ${POSTGRES_USER:-catalyst}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-catalyst_dev_password}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER:-catalyst}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD:-catalyst_dev_password}
+      MONGO_INITDB_DATABASE: ${MONGO_DB:-catalyst}
     ports:
-      - "5432:5432"
+      - "27017:27017"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - mongodb_data:/data/db
     networks:
       - catalyst-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-catalyst}"]
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -93,7 +93,7 @@ services:
     env_file:
       - .env
     environment:
-      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-catalyst}:${POSTGRES_PASSWORD:-catalyst_dev_password}@postgres:5432/${POSTGRES_DB:-catalyst}
+      MONGO_URI: mongodb://${MONGO_USER:-catalyst}:${MONGO_PASSWORD:-catalyst_dev_password}@mongodb:27017/${MONGO_DB:-catalyst}?authSource=admin
       NEO4J_URI: bolt://neo4j:7687
       REDIS_URL: redis://redis:6379/0
       CELERY_BROKER_URL: redis://redis:6379/0
@@ -104,7 +104,7 @@ services:
     volumes:
       - ./backend:/app
     depends_on:
-      postgres:
+      mongodb:
         condition: service_healthy
       neo4j:
         condition: service_healthy
@@ -125,7 +125,7 @@ services:
     env_file:
       - .env
     environment:
-      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-catalyst}:${POSTGRES_PASSWORD:-catalyst_dev_password}@postgres:5432/${POSTGRES_DB:-catalyst}
+      MONGO_URI: mongodb://${MONGO_USER:-catalyst}:${MONGO_PASSWORD:-catalyst_dev_password}@mongodb:27017/${MONGO_DB:-catalyst}?authSource=admin
       NEO4J_URI: bolt://neo4j:7687
       REDIS_URL: redis://redis:6379/0
       CELERY_BROKER_URL: redis://redis:6379/0
@@ -135,6 +135,7 @@ services:
     depends_on:
       - backend
       - redis
+      - mongodb
     networks:
       - catalyst-network
     command: celery -A app.workers.celery_app worker --loglevel=info --queues=parser,graph,simulation,prediction,telemetry

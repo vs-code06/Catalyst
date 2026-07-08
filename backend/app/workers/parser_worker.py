@@ -13,7 +13,7 @@ def clone_and_parse_repository(self, repo_url: str, branch: str = "main") -> dic
     2. Walk filesystem and filter source files by language
     3. Run Tree-sitter parsing on each file
     4. Extract symbols (functions, classes, imports)
-    5. Store results to PostgreSQL
+    5. Store results to MongoDB
     6. Enqueue graph_worker.build_graphs task
     """
     # TODO: implement parse pipeline

@@ -13,7 +13,7 @@ graph TD
     end
 
     subgraph API Gateway
-        BE[FastAPI Web Server / Asyncpg / Uvicorn]
+        BE[FastAPI Web Server / Motor / Uvicorn]
     end
 
     subgraph Message Broker
@@ -22,7 +22,7 @@ graph TD
     end
 
     subgraph Data Stores
-        PG[(PostgreSQL)]
+        MG[(MongoDB)]
         Neo4j[(Neo4j Graph Database)]
     end
 
@@ -44,9 +44,9 @@ graph TD
     Celery <--> Pred
     Celery <--> Telem
 
-    Parser -->|Write Symbols| PG
+    Parser -->|Write Symbols| MG
     GraphW -->|Write Graph Relationships| Neo4j
-    Sim -->|Read/Write Simulation Runs| PG
+    Sim -->|Read/Write Simulation Runs| MG
     Pred -->|Read Embeddings & Infer| Neo4j
     Telem -->|Query Telemetry| PM[Prometheus / Jaeger]
 ```

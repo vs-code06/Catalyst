@@ -62,17 +62,8 @@ typecheck: ## Run mypy type-checking
 
 # ─── Database ─────────────────────────────────────────────────────────────────
 
-migrate: ## Run Alembic migrations
-	$(DOCKER_COMPOSE) exec $(BACKEND_SERVICE) alembic upgrade head
-
-migrate-create: ## Create a new migration (usage: make migrate-create MSG="add users table")
-	$(DOCKER_COMPOSE) exec $(BACKEND_SERVICE) alembic revision --autogenerate -m "$(MSG)"
-
-migrate-rollback: ## Roll back last migration
-	$(DOCKER_COMPOSE) exec $(BACKEND_SERVICE) alembic downgrade -1
-
-migrate-history: ## Show migration history
-	$(DOCKER_COMPOSE) exec $(BACKEND_SERVICE) alembic history
+db-create-indexes: ## Create indexes in MongoDB collections
+	$(DOCKER_COMPOSE) exec $(BACKEND_SERVICE) python -m app.database.mongodb.client
 
 # ─── Workers ─────────────────────────────────────────────────────────────────
 
@@ -105,8 +96,8 @@ clean: ## Remove all generated artifacts and caches
 shell-backend: ## Open a shell in the backend container
 	$(DOCKER_COMPOSE) exec $(BACKEND_SERVICE) bash
 
-shell-db: ## Open a psql shell
-	$(DOCKER_COMPOSE) exec postgres psql -U catalyst -d catalyst
+shell-db: ## Open a MongoDB shell
+	$(DOCKER_COMPOSE) exec mongodb mongosh -u catalyst -p catalyst_dev_password --authSource admin catalyst
 
 # ─── Monitoring ───────────────────────────────────────────────────────────────
 

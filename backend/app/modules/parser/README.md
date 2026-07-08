@@ -42,7 +42,7 @@ parser/
 
 ## Output
 
-Produces `ParsedRepository` domain objects stored in PostgreSQL.  
+Produces `ParsedRepository` domain objects stored in MongoDB.  
 Enqueues `graph_worker.build_dependency` after completion.
 
 ## Dependencies

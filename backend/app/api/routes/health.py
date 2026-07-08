@@ -27,5 +27,5 @@ async def health_check() -> HealthResponse:
 @router.get("/ready", summary="Readiness probe")
 async def readiness_check() -> dict[str, str]:
     """Returns 200 OK when all downstream services are reachable."""
-    # TODO: ping Postgres, Neo4j, Redis
+    # TODO: ping MongoDB, Neo4j, Redis
     return {"status": "ready"}

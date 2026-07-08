@@ -9,7 +9,7 @@ This document outlines the development milestones for Catalyst over the next 6-1
 ### Milestone 1: Core Parsing & Graph Storage (Months 1–3)
 - Ingest GitHub repositories
 - Run Tree-sitter parsers on Python & TypeScript codebases
-- Map symbols to PostgreSQL and build dependency relationships in Neo4j
+- Map symbols to MongoDB and build dependency relationships in Neo4j
 
 ### Milestone 2: Telemetry Ingestion & Correlation (Months 4–6)
 - Build OpenTelemetry receivers
