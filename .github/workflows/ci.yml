@@ -47,16 +47,12 @@ jobs:
     needs: backend-lint
 
     services:
-      postgres:
-        image: postgres:16-alpine
-        env:
-          POSTGRES_DB: catalyst_test
-          POSTGRES_USER: catalyst
-          POSTGRES_PASSWORD: test_password
+      mongodb:
+        image: mongo:7.0
         ports:
-          - 5432:5432
+          - 27017:27017
         options: >-
-          --health-cmd pg_isready
+          --health-cmd "mongosh --eval 'db.adminCommand(\"ping\")'"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
@@ -76,7 +72,8 @@ jobs:
         working-directory: backend
 
     env:
-      DATABASE_URL: postgresql+asyncpg://catalyst:test_password@localhost:5432/catalyst_test
+      MONGO_URI: mongodb://localhost:27017/catalyst_test
+      MONGO_DB: catalyst_test
       REDIS_URL: redis://localhost:6379/0
       SECRET_KEY: test-secret-key
       APP_ENV: test
